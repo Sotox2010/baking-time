@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/spacing_large"
+    android:paddingBottom="@dimen/spacing_large"
+    android:paddingStart="@dimen/keyline_margin"
+    android:paddingEnd="@dimen/keyline_margin"
+    android:background="?selectableItemBackground">
+
+    <TextView
+        android:id="@+id/step_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/textColorPrimary"
+        android:fontFamily="sans-serif-medium"
+        android:fontFeatureSettings="smcp, onum"
+        tools:text="Step 1"/>
+
+    <TextView
+        android:id="@+id/step_short_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_medium"
+        android:textColor="@color/textColorSecondary"
+        android:lineSpacingMultiplier="1.3"
+        tools:text="Prep the cookie crust."/>
+
+</LinearLayout>

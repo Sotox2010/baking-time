@@ -1,0 +1,53 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:padding="@dimen/widget_margin">
+
+    <TextView
+        android:id="@+id/appwidget_recipe_name"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:textSize="@dimen/text_size_large"
+        android:gravity="center_vertical"
+        android:textColor="@color/textColorPrimary"
+        android:textStyle="bold"
+        android:paddingStart="@dimen/spacing_large"
+        android:paddingEnd="@dimen/spacing_large"
+        android:elevation="4dp"
+        tools:text="Ingredients: Oreo Cheesecake" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ListView
+            android:id="@+id/ingredients_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:id="@+id/appwidget_ingredients_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_medium"
+            android:textColor="?android:textColorSecondary"
+            android:lineSpacingMultiplier="1.5"
+            tools:text="- 1/2 cup of milk\n- 250 G of creme cheese.\n- 750 G of graham crackers\n- Big hungry" />
+
+        <TextView
+            android:id="@+id/empty_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="@dimen/spacing_large"
+            android:lineSpacingMultiplier="1.3"
+            android:text="This recipe is no longer available, please remove this widget"/>
+
+    </FrameLayout>
+
+</LinearLayout>

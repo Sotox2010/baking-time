@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base application theme. -->
+    <style name="Theme.BakingTime" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@color/window_background</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:navigationBarColor">@color/white</item>
+        <item name="android:navigationBarDividerColor">@color/divider_light</item>
+        <item name="android:windowLightNavigationBar">true</item>
+
+        <!-- Theme colors -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <!-- Text colors -->
+        <item name="android:textColorPrimary">@color/textColorPrimary</item>
+        <item name="android:textColorPrimaryInverse">@color/textColorPrimaryInverse</item>
+        <item name="android:textColorSecondary">@color/textColorSecondary</item>
+        <item name="android:textColorSecondaryInverse">@color/textColorSecondaryInverse</item>
+        <item name="android:textColorHint">@color/textColorTertiary</item>
+        <item name="android:textColorHintInverse">@color/textColorTertiaryInverse</item>
+        <item name="android:textColorTertiary">@color/textColorTertiary</item>
+        <item name="android:textColorTertiaryInverse">@color/textColorTertiaryInverse</item>
+        <item name="android:textColorLink">@color/colorAccent</item>
+
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+
+        <!-- Default toolbar style -->
+        <!--<item name="toolbarStyle">@style/PopularMovies.Toolbar</item>-->
+
+    </style>
+
+    <style name="Theme.BakingTime.RecipeGrid">
+        <item name="android:windowBackground">@color/window_background_grey</item>
+    </style>
+
+</resources>

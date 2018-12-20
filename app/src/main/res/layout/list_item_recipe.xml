@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    app:cardElevation="1dp"
+    android:foreground="?selectableItemBackground">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.jesussoto.android.bakingtime.ui.widget.AspectRatioImageView
+            android:id="@+id/recipe_image"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            app:aspectRatio="@dimen/aspect_ratio_16_9"
+            android:background="#eee"/>
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Title"
+            android:id="@+id/recipe_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_large"
+            android:fontFamily="sans-serif"
+            android:layout_below="@id/recipe_image"
+            android:layout_marginStart="@dimen/spacing_large"
+            android:layout_marginEnd="@dimen/spacing_large"
+            tools:text="Oreo Cheesecake"/>
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:id="@+id/recipe_cooking_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_large"
+            android:textColor="?android:textColorTertiary"
+            android:layout_alignStart="@id/recipe_name"
+            android:layout_alignEnd="@id/recipe_name"
+            android:layout_below="@id/recipe_name"
+            android:fontFeatureSettings="onum"
+            tools:text="8 servings"/>
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

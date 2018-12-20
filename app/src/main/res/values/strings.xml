@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Baking Time</string>
+
+    <string name="recipe_servings_grid">%d servings</string>
+    <string name="recipe_servings">%d servings</string>
+    <string name="one_quarter">1/4</string>
+    <string name="one_half">1/2</string>
+    <string name="three_quarters">3/4</string>
+    <string name="ingredient_of">\u00A0of\u00A0</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="configure">Configure</string>
+    <string name="add_widget">Add widget</string>
+    <string name="bullet">•</string>
+
+</resources>
