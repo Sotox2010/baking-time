@@ -74,7 +74,7 @@
                 android:layout_marginStart="@dimen/keyline_margin"
                 android:layout_marginEnd="@dimen/keyline_margin"
                 android:letterSpacing="0.2"
-                android:text="Instructions"/>
+                android:text="@string/section_instructions"/>
 
             <TextView
                 android:id="@+id/step_description"
@@ -90,28 +90,6 @@
         </LinearLayout>
 
     </ScrollView>
-
-    <!--<FrameLayout
-        android:id="@+id/step_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:elevation="2dp">
-
-        <Button
-            style="@style/Widget.AppCompat.Button.Borderless.Colored"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:text="previous"/>
-
-        <Button
-            style="@style/Widget.AppCompat.Button.Borderless.Colored"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="end"
-            android:text="next"/>
-
-    </FrameLayout>-->
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"

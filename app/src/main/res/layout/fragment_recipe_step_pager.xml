@@ -28,7 +28,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:background="?selectableItemBackgroundBorderless"
-            android:text="previous"/>
+            android:text="@string/previous"/>
 
         <Button
             style="@style/Widget.AppCompat.Button.Borderless.Colored"
@@ -37,7 +37,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="end"
             android:background="?selectableItemBackgroundBorderless"
-            android:text="next"/>
+            android:text="@string/next"/>
 
     </FrameLayout>
 

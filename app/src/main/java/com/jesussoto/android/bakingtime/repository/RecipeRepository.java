@@ -21,8 +21,11 @@ import com.jesussoto.android.bakingtime.db.entity.BakingStep;
 import com.jesussoto.android.bakingtime.db.entity.Ingredient;
 import com.jesussoto.android.bakingtime.db.entity.Recipe;
 import com.jesussoto.android.bakingtime.di.qualifier.ApplicationContext;
+import com.jesussoto.android.bakingtime.util.AppPreferenceManager;
 
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -31,6 +34,8 @@ import io.reactivex.schedulers.Schedulers;
 
 @Singleton
 public class RecipeRepository {
+
+    private static final long RECIPE_UPDATE_THRESHOLD_MINUTES = 240; // 4 HOURS
 
     @NonNull
     private WebService mWebService;
@@ -50,17 +55,22 @@ public class RecipeRepository {
     @NonNull
     private Context mAppContext;
 
+    @NonNull
+    private AppPreferenceManager mPreferenceManager;
+
     @Inject
     public RecipeRepository(@NonNull WebService service, @NonNull RecipeDao recipeDao,
                             @NonNull IngredientDao ingredientDao,
                             @NonNull BakingStepDao bakingStepDao,
-                            @NonNull @ApplicationContext Context appContext) {
+                            @NonNull @ApplicationContext Context appContext,
+                            @NonNull AppPreferenceManager preferenceManager) {
         mWebService = service;
         mRecipeDao = recipeDao;
         mIngredientDao = ingredientDao;
         mBakingStepDao = bakingStepDao;
         mRefreshingState = new MutableLiveData<>();
         mAppContext = appContext;
+        mPreferenceManager = preferenceManager;
     }
 
     @SuppressLint("CheckResult")
@@ -91,6 +101,10 @@ public class RecipeRepository {
 
     @SuppressLint("CheckResult")
     public void refreshRecipes() {
+        if (!shouldFetch()) {
+            return;
+        }
+
         mRefreshingState.setValue(true);
         mWebService.getRecipes()
                 .doFinally(() -> mRefreshingState.postValue(false))
@@ -102,6 +116,19 @@ public class RecipeRepository {
                         // onError
                         Throwable::printStackTrace
                 );
+    }
+
+    private boolean shouldFetch() {
+        Date lastUpdate = mPreferenceManager.getRecipesLastUpdatedTime();
+        Date now = new Date();
+
+        if (lastUpdate == null) {
+            return true;
+        }
+
+        long diffInMillis = Math.abs(now.getTime() - lastUpdate.getTime());
+        long diffInMinutes = TimeUnit.MINUTES.convert(diffInMillis, TimeUnit.MILLISECONDS);
+        return diffInMinutes > RECIPE_UPDATE_THRESHOLD_MINUTES;
     }
 
     private void saveRecipesToDatabase(List<Recipe> recipes) {
@@ -120,6 +147,7 @@ public class RecipeRepository {
             mIngredientDao.insert(recipe.getIngredients());
             mBakingStepDao.insert(recipe.getSteps());
         }
+        mPreferenceManager.updateRecipesLastUpdatedTime();
         updateWidgets();
     }
 

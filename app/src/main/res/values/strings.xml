@@ -16,5 +16,8 @@
     <string name="section_steps">Steps</string>
     <string name="widget_recipe_no_longer_available">This recipe is no longer available, please remove this widget</string>
     <string name="widget_ingredients_for">ingredients for</string>
+    <string name="previous">previous</string>
+    <string name="next">next</string>
+    <string name="select_a_recipe">Select a recipe</string>
 
 </resources>
