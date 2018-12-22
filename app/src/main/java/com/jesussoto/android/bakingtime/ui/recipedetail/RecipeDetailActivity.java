@@ -95,4 +95,11 @@ public class RecipeDetailActivity extends AppCompatActivity implements HasSuppor
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return mFragmentInjector;
     }
+
+    @Nullable
+    @Override
+    public Intent getParentActivityIntent() {
+        Intent parentIntent = super.getParentActivityIntent();
+        return parentIntent != null ? parentIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP) : null;
+    }
 }

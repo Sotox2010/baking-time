@@ -7,9 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
 import android.support.v7.widget.Toolbar;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
-import android.text.style.BulletSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -100,23 +97,18 @@ public class RecipeDetailFragment extends Fragment
             return;
         }
 
+        String bullet = getString(R.string.bullet);
         List<Ingredient> ingredients = resource.getData();
-        SpannableStringBuilder builder = new SpannableStringBuilder();
-        int gapWidth = getResources().getDimensionPixelSize(R.dimen.spacing_large);
-        int bulletColor = mIngredientsView.getCurrentTextColor();
-        int bulletRadius = 7;
-        int spanFlags = Spanned.SPAN_EXCLUSIVE_EXCLUSIVE;
-        int start = 0;
+        StringBuilder builder = new StringBuilder();
 
         for (int i = 0; i < ingredients.size(); i++) {
             Ingredient ingredient = ingredients.get(i);
-            BulletSpan span = new BulletSpan(gapWidth, bulletColor, bulletRadius);
+            builder.append(bullet);
+            builder.append(' ');
             builder.append(buildIngredientText(ingredient, i < ingredients.size() - 1));
-            builder.setSpan(span, start, builder.length(), spanFlags);
-            start = builder.length();
         }
 
-        mIngredientsView.setText(builder);
+        mIngredientsView.setText(builder.toString());
     }
 
     private String buildIngredientText(@NonNull Ingredient ingredient, boolean insertBreak) {

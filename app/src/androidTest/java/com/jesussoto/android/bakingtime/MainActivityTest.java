@@ -60,7 +60,7 @@ public class MainActivityTest {
     }
 
     @Test
-    public void testStepSwipes() {
+    public void testStepSwipes() throws InterruptedException {
         IdlingRegistry.getInstance().register(activityActivityTestRule
                 .getActivity().getIdlingResource());
 
@@ -74,10 +74,14 @@ public class MainActivityTest {
 
         onView(withId(R.id.steps_pager)).perform(swipeLeft());
 
+        Thread.sleep(1000);
+
         onView(allOf(withId(R.id.step_short_description), isCompletelyDisplayed()))
                 .check(ViewAssertions.matches(withText("Starting prep")));
 
         onView(withId(R.id.steps_pager)).perform(swipeRight());
+
+        Thread.sleep(1000);
 
         onView(allOf(withId(R.id.step_short_description), isCompletelyDisplayed()))
                 .check(ViewAssertions.matches(withText("Recipe Introduction")));
