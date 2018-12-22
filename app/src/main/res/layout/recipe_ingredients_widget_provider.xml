@@ -7,36 +7,55 @@
     android:background="@color/white"
     android:padding="@dimen/widget_margin">
 
-    <TextView
-        android:id="@+id/appwidget_recipe_name"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:textSize="@dimen/text_size_large"
+        android:layout_height="wrap_content"
+        android:minHeight="?android:attr/actionBarSize"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/spacing_medium"
+        android:paddingBottom="@dimen/spacing_medium"
         android:gravity="center_vertical"
-        android:textColor="@color/textColorPrimary"
-        android:textStyle="bold"
-        android:paddingStart="@dimen/spacing_large"
-        android:paddingEnd="@dimen/spacing_large"
-        android:elevation="4dp"
-        tools:text="Ingredients: Oreo Cheesecake" />
+        android:background="@color/white"
+        android:elevation="2dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_small"
+            android:gravity="center_vertical"
+            android:textColor="@color/textColorSecondary"
+            android:layout_marginStart="@dimen/spacing_large"
+            android:layout_marginEnd="@dimen/spacing_large"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:fontFeatureSettings="smcp"
+            android:fontFamily="sans-serif-medium"
+            android:letterSpacing="0.1"
+            android:text="@string/widget_ingredients_for" />
+
+        <TextView
+            android:id="@+id/appwidget_recipe_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_large"
+            android:gravity="center_vertical"
+            android:textColor="@color/textColorPrimary"
+            android:textStyle="bold"
+            android:layout_marginStart="@dimen/spacing_large"
+            android:layout_marginEnd="@dimen/spacing_large"
+            tools:text="Ingredients: Oreo Cheesecake" />
+
+    </LinearLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <ListView
             android:id="@+id/ingredients_list_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
-
-        <TextView
-            android:id="@+id/appwidget_ingredients_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/text_size_medium"
-            android:textColor="?android:textColorSecondary"
-            android:lineSpacingMultiplier="1.5"
-            tools:text="- 1/2 cup of milk\n- 250 G of creme cheese.\n- 750 G of graham crackers\n- Big hungry" />
 
         <TextView
             android:id="@+id/empty_view"
@@ -46,7 +65,7 @@
             android:gravity="center"
             android:padding="@dimen/spacing_large"
             android:lineSpacingMultiplier="1.3"
-            android:text="This recipe is no longer available, please remove this widget"/>
+            android:text="@string/widget_recipe_no_longer_available"/>
 
     </FrameLayout>
 

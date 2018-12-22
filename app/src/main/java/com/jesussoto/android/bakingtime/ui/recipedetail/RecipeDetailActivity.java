@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -17,8 +18,11 @@ import com.jesussoto.android.bakingtime.repository.RecipeRepository;
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.HasSupportFragmentInjector;
 
-public class RecipeDetailActivity extends AppCompatActivity {
+public class RecipeDetailActivity extends AppCompatActivity implements HasSupportFragmentInjector {
 
     private static final String EXTRA_RECIPE_ID = "extra_recipe_id";
 
@@ -31,6 +35,9 @@ public class RecipeDetailActivity extends AppCompatActivity {
     public static void start(FragmentActivity launching, long recipeId) {
         launching.startActivity(getStartIntent(launching, recipeId));
     }
+
+    @Inject
+    DispatchingAndroidInjector<Fragment> mFragmentInjector;
 
     @Inject
     RecipeRepository mRepository;
@@ -82,5 +89,10 @@ public class RecipeDetailActivity extends AppCompatActivity {
                     .commit();
 
         }
+    }
+
+    @Override
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        return mFragmentInjector;
     }
 }

@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NavUtils;
+import android.support.v7.widget.Toolbar;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.BulletSpan;
@@ -33,6 +35,9 @@ public class RecipeDetailFragment extends Fragment
     public static RecipeDetailFragment newInstance() {
         return new RecipeDetailFragment();
     }
+
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
 
     @BindView(R.id.recipe_name)
     TextView mRecipeNameView;
@@ -67,6 +72,7 @@ public class RecipeDetailFragment extends Fragment
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mToolbar.setNavigationOnClickListener(v -> NavUtils.navigateUpFromSameTask(requireActivity()));
     }
 
     @Override

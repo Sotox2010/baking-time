@@ -6,6 +6,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.app.TaskStackBuilder;
 import android.widget.RemoteViews;
 
 import com.jesussoto.android.bakingtime.R;
@@ -24,35 +25,10 @@ public class RecipeIngredientsWidgetProvider extends AppWidgetProvider {
 
         IngredientsWidgetInfo info = RecipeIngredientsWidgetConfigureActivity
                 .loadWidgetInfo(context, appWidgetId);
-        // Get the recipe associated with this widget.
 
-        // Construct the RemoteViews object
-        //RemoteViews views = new RemoteViews(context.getPackageName(),
-                // R.layout.recipe_ingredients_widget_provider);
-
-        /*Maybe.zip(
-                database.recipeDao().getByIdAsMaybe(recipeId),
-                database.ingredientDao().getAllByRecipeIdAsMaybe(recipeId),
-                new BiFunction<Recipe, List<Ingredient>, Pair<Recipe, List<Ingredient>>>() {
-                    @Override
-                    public Pair<Recipe, List<Ingredient>> apply(Recipe recipe, List<Ingredient> ingredients) throws Exception {
-                        return new Pair(recipe, ingredients);
-                    }
-                })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(recipeListPair -> {
-                    Recipe recipe = recipeListPair.first;
-                    List<Ingredient> ingredients = recipeListPair.second;
-
-                    views.setTextViewText(R.id.appwidget_recipe_name, recipe.getName());
-                    views.setTextViewText(R.id.appwidget_ingredients_text, buildIngredientsSpannableString(context, ingredients));
-
-                    // Instruct the widget manager to update the widget
-                    appWidgetManager.updateAppWidget(appWidgetId, views);
-                }
-        );*/
-
+        if (info == null) {
+            return;
+        }
 
         // Sets up the intent that points to the StackViewService that will
         // provide the views for this collection.
@@ -67,24 +43,28 @@ public class RecipeIngredientsWidgetProvider extends AppWidgetProvider {
         // of the collection view.
         views.setEmptyView(R.id.ingredients_list_view, R.id.empty_view);
 
+        Intent activityIntent = RecipeDetailActivity.getStartIntent(context, info.getRecipeId());
+        PendingIntent operation = TaskStackBuilder.create(context)
+                .addNextIntentWithParentStack(activityIntent)
+                .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
         // This section makes it possible for items to have individualized behavior.
         // It does this by setting up a pending intent template. Individuals items of a collection
         // cannot set up their own pending intents. Instead, the collection as a whole sets
         // up a pending intent template, and the individual items set a fillInIntent
         // to create unique behavior on an item-by-item basis.
-        /*Intent toastIntent = new Intent(context, StackWidgetProvider.class);
+        // Intent toastIntent = new Intent(context, StackWidgetProvider.class);
         // Set the action for the intent.
         // When the user touches a particular view, it will have the effect of
         // broadcasting TOAST_ACTION.
-        toastIntent.setAction(StackWidgetProvider.TOAST_ACTION);
-        toastIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds[i]);
-        intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
-        PendingIntent toastPendingIntent = PendingIntent.getBroadcast(context, 0, toastIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
-        views.setPendingIntentTemplate(R.id.stack_view, toastPendingIntent);*/
+        // toastIntent.setAction(StackWidgetProvider.TOAST_ACTION);
+        // toastIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds[i]);
+        // intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
+        // PendingIntent fillPendingIntent = PendingIntent.getBroadcast(context, 0, toastIntent,
+        //        PendingIntent.FLAG_UPDATE_CURRENT);
 
-        Intent activityIntent = RecipeDetailActivity.getStartIntent(context, info.getRecipeId());
-        views.setOnClickPendingIntent(R.id.root, PendingIntent.getActivity(context, 0, activityIntent, 0));
+        views.setPendingIntentTemplate(R.id.ingredients_list_view, operation);
+        views.setOnClickPendingIntent(R.id.root, operation);
 
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }

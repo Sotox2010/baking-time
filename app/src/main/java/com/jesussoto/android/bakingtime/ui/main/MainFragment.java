@@ -12,8 +12,10 @@ import dagger.android.support.AndroidSupportInjection;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.test.espresso.idling.CountingIdlingResource;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,6 +28,7 @@ import android.widget.ProgressBar;
 import com.jesussoto.android.bakingtime.R;
 import com.jesussoto.android.bakingtime.db.entity.Recipe;
 import com.jesussoto.android.bakingtime.ui.recipedetail.RecipeDetailActivity;
+import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
@@ -37,6 +40,9 @@ public class MainFragment extends Fragment implements OnRecipeTappedListener {
 
     @Inject
     ViewModelProvider.Factory mViewModelFactory;
+
+    @Inject
+    Picasso mPicasso;
 
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
@@ -50,9 +56,6 @@ public class MainFragment extends Fragment implements OnRecipeTappedListener {
     @BindView(R.id.progress)
     ProgressBar mProgressBar;
 
-    //@BindView(R.id.progress)
-    //RecyclerView mProgressBar
-
     private RecipesAdapter mAdapter;
 
     private Unbinder mUnbinder;
@@ -62,6 +65,7 @@ public class MainFragment extends Fragment implements OnRecipeTappedListener {
     @Override
     public void onAttach(Context context) {
         AndroidSupportInjection.inject(this);
+        ((MainActivity) context).getIdlingResource().increment();
         super.onAttach(context);
     }
 
@@ -80,6 +84,16 @@ public class MainFragment extends Fragment implements OnRecipeTappedListener {
         setupRecyclerView();
 
         ((AppCompatActivity) requireActivity()).setSupportActionBar(mToolbar);
+
+        ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
+        if (actionBar != null) {
+            mToolbar.post(() -> actionBar.setTitle(null));
+        }
+
+        int end = requireActivity().getResources()
+                .getDimensionPixelSize(R.dimen.refresh_layout_progress_top);
+        mSwipeRefreshLayout.setProgressViewOffset(false, 0, end);
+        mSwipeRefreshLayout.setEnabled(false);
     }
 
     @Override
@@ -105,7 +119,7 @@ public class MainFragment extends Fragment implements OnRecipeTappedListener {
     private void setupRecyclerView() {
         int spanCount = getResources().getInteger(R.integer.recipe_grid_span_count);
 
-        mAdapter = new RecipesAdapter(null);
+        mAdapter = new RecipesAdapter(null, mPicasso);
         mAdapter.setOnRecipeTappedListener(this);
 
         mRecyclerView.setLayoutManager(new GridLayoutManager(requireActivity(), spanCount));
@@ -113,6 +127,11 @@ public class MainFragment extends Fragment implements OnRecipeTappedListener {
     }
 
     private void updateView(MainUiModel uiModel) {
+        CountingIdlingResource resource = ((MainActivity) requireActivity()).getIdlingResource();
+        if (uiModel.getRecipes() != null && !uiModel.getRecipes().isEmpty() && !resource.isIdleNow()) {
+            resource.decrement();
+        }
+
         int recipeListVisibility = uiModel.isRecipeListVisible() ? View.VISIBLE : View.GONE;
         int loadingVisibility = uiModel.isLoadingVisible() ? View.VISIBLE : View.GONE;
 

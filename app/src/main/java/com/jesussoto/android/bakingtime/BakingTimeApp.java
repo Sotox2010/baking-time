@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.app.Service;
 
+import com.jesussoto.android.bakingtime.di.AppComponent;
 import com.jesussoto.android.bakingtime.di.DaggerAppComponent;
 
 import javax.inject.Inject;
@@ -23,13 +24,16 @@ public class BakingTimeApp extends Application implements
     @Inject
     DispatchingAndroidInjector<Service> dispatchingServiceInjector;
 
+    private AppComponent mAppComponent;
+
     @Override
     public void onCreate() {
         super.onCreate();
-        DaggerAppComponent.builder()
+        mAppComponent = DaggerAppComponent.builder()
                 .application(this)
-                .build()
-                .inject(this);
+                .build();
+
+        mAppComponent.inject(this);
 
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
@@ -44,5 +48,13 @@ public class BakingTimeApp extends Application implements
     @Override
     public AndroidInjector<Service> serviceInjector() {
         return dispatchingServiceInjector;
+    }
+
+    public AppComponent getAppComponent() {
+        return mAppComponent;
+    }
+
+    public void setAppComponent(AppComponent appComponent) {
+        this.mAppComponent = appComponent;
     }
 }

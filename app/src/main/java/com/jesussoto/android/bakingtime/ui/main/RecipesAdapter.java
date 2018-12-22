@@ -3,6 +3,7 @@ package com.jesussoto.android.bakingtime.ui.main;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.jesussoto.android.bakingtime.R;
 import com.jesussoto.android.bakingtime.db.entity.Recipe;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -26,14 +28,18 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.ViewHold
     @Nullable
     private OnRecipeTappedListener mRecipeTappedListener;
 
-    RecipesAdapter(@Nullable List<Recipe> recipes) {
+    @NonNull
+    private Picasso mPicasso;
+
+    RecipesAdapter(@Nullable List<Recipe> recipes, @NonNull Picasso picasso) {
         mRecipes = recipes;
+        mPicasso = picasso;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return ViewHolder.create(parent, this);
+        return ViewHolder.create(parent, mPicasso,this);
     }
 
     @Override
@@ -77,20 +83,23 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.ViewHold
 
         private Recipe mRecipe;
 
+        private Picasso mPicasso;
+
         @Nullable
         private OnRecipeTappedListener mRecipeTappedListener;
 
-        static ViewHolder create(ViewGroup parent, @Nullable OnRecipeTappedListener listener) {
+        static ViewHolder create(ViewGroup parent, @NonNull Picasso picasso, @Nullable OnRecipeTappedListener listener) {
             LayoutInflater inflater = LayoutInflater.from(parent.getContext());
             View itemView = inflater.inflate(R.layout.list_item_recipe, parent, false);
-            return new ViewHolder(itemView, listener);
+            return new ViewHolder(itemView, picasso, listener);
         }
 
-        ViewHolder(@NonNull View itemView, @Nullable OnRecipeTappedListener listener) {
+        ViewHolder(@NonNull View itemView, @NonNull Picasso picasso, @Nullable OnRecipeTappedListener listener) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
             mRecipeTappedListener = listener;
+            mPicasso = picasso;
         }
 
         void bindRecipe(Recipe recipe) {
@@ -98,6 +107,12 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.ViewHold
             mRecipeName.setText(recipe.getName());
             mServingsAndSteps.setText(itemView.getContext().getString(
                     R.string.recipe_servings_grid, recipe.getServings()));
+
+            if (!TextUtils.isEmpty(recipe.getImage())) {
+                mPicasso.load(recipe.getImage()).into(mRecipeImage);
+            } else {
+                mRecipeImage.setImageResource(R.drawable.default_recipe_image);
+            }
         }
 
         @Override

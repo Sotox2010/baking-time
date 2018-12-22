@@ -11,7 +11,7 @@
     android:background="?selectableItemBackground">
 
     <TextView
-        android:id="@+id/step_number"
+        android:id="@+id/item_step_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/textColorPrimary"
@@ -20,7 +20,7 @@
         tools:text="Step 1"/>
 
     <TextView
-        android:id="@+id/step_short_description"
+        android:id="@+id/item_step_short_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="@dimen/text_size_medium"

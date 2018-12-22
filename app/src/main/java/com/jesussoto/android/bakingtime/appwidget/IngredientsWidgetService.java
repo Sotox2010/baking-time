@@ -93,6 +93,7 @@ class IngredientsWidgetRemoteViewsFactory implements RemoteViewsService.RemoteVi
         views.setTextViewText(R.id.ingredient_description, RecipeIngredientsWidgetProvider
                 .buildIngredientText(mContext, ingredient));
 
+        views.setOnClickFillInIntent(R.id.item_root, new Intent());
         return views;
     }
 

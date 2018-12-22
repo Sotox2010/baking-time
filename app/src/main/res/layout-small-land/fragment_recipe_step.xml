@@ -17,25 +17,11 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.jesussoto.android.bakingtime.ui.widget.AspectRatioFrameLayout
-                android:id="@+id/player_container"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                app:aspectRatio="@dimen/aspect_ratio_16_9">
-
-                <com.google.android.exoplayer2.ui.PlayerView
-                    android:id="@+id/player_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/black"/>
-
-            </com.jesussoto.android.bakingtime.ui.widget.AspectRatioFrameLayout>
-
             <com.jesussoto.android.bakingtime.ui.widget.AspectRatioImageView
                 android:id="@+id/step_image"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                app:aspectRatio="@dimen/aspect_ratio_16_9"
+                android:layout_height="168dp"
+                android:scaleType="centerCrop"
                 android:background="#eee"/>
 
             <TextView
@@ -74,7 +60,7 @@
                 android:layout_marginStart="@dimen/keyline_margin"
                 android:layout_marginEnd="@dimen/keyline_margin"
                 android:letterSpacing="0.2"
-                android:text="Instructions"/>
+                android:text="@string/section_instructions"/>
 
             <TextView
                 android:id="@+id/step_description"
@@ -91,32 +77,23 @@
 
     </ScrollView>
 
-    <!--<FrameLayout
-        android:id="@+id/step_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:elevation="2dp">
-
-        <Button
-            style="@style/Widget.AppCompat.Button.Borderless.Colored"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:text="previous"/>
-
-        <Button
-            style="@style/Widget.AppCompat.Button.Borderless.Colored"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="end"
-            android:text="next"/>
-
-    </FrameLayout>-->
-
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         tools:title="Oreo Cheesecake"/>
+
+    <com.jesussoto.android.bakingtime.ui.widget.AspectRatioFrameLayout
+        android:id="@+id/player_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.exoplayer2.ui.PlayerView
+            android:id="@+id/player_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/black"/>
+
+    </com.jesussoto.android.bakingtime.ui.widget.AspectRatioFrameLayout>
 
 </android.support.design.widget.CoordinatorLayout>

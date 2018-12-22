@@ -11,5 +11,10 @@
     <string name="configure">Configure</string>
     <string name="add_widget">Add widget</string>
     <string name="bullet">•</string>
+    <string name="section_instructions">Instructions</string>
+    <string name="section_ingredients">Ingredients</string>
+    <string name="section_steps">Steps</string>
+    <string name="widget_recipe_no_longer_available">This recipe is no longer available, please remove this widget</string>
+    <string name="widget_ingredients_for">ingredients for</string>
 
 </resources>

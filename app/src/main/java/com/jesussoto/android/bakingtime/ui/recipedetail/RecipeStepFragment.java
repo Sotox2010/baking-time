@@ -1,5 +1,6 @@
 package com.jesussoto.android.bakingtime.ui.recipedetail;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -29,10 +30,14 @@ import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.jesussoto.android.bakingtime.R;
 import com.jesussoto.android.bakingtime.db.entity.BakingStep;
+import com.squareup.picasso.Picasso;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import dagger.android.support.AndroidSupportInjection;
 
 public class RecipeStepFragment extends Fragment {
 
@@ -46,6 +51,9 @@ public class RecipeStepFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
+    @Inject
+    Picasso mPicasso;
 
     @BindView(R.id.player_container)
     ViewGroup mPlayerContainer;
@@ -70,6 +78,12 @@ public class RecipeStepFragment extends Fragment {
     private String mVideoUrl;
 
     private Unbinder mUnbinder;
+
+    @Override
+    public void onAttach(Context context) {
+        AndroidSupportInjection.inject(this);
+        super.onAttach(context);
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -155,5 +169,13 @@ public class RecipeStepFragment extends Fragment {
         mStepImageView.setVisibility(isImageVisible ? View.VISIBLE : View.GONE);
 
         mVideoUrl = step.getVideoUrl();
+
+        if (isImageVisible) {
+            loadImage(step.getThumbnailUrl());
+        }
+    }
+
+    private void loadImage(String imageUrl) {
+        mPicasso.load(imageUrl).into(mStepImageView);
     }
 }

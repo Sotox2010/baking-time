@@ -1,5 +1,6 @@
 package com.jesussoto.android.bakingtime.ui.main;
 
+import android.support.test.espresso.idling.CountingIdlingResource;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import dagger.android.AndroidInjection;
@@ -15,6 +16,8 @@ import javax.inject.Inject;
 
 public class MainActivity extends AppCompatActivity implements HasSupportFragmentInjector {
 
+    private CountingIdlingResource mIdlingRes = new CountingIdlingResource("fetch", true);
+
     @Inject
     DispatchingAndroidInjector<Fragment> mFragmentInjector;
 
@@ -29,6 +32,10 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
                     .replace(R.id.container, MainFragment.newInstance())
                     .commitNow();
         }
+    }
+
+    public CountingIdlingResource getIdlingResource() {
+        return mIdlingRes;
     }
 
     @Override

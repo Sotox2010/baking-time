@@ -35,10 +35,10 @@ class BakingStepViewHolder implements View.OnClickListener {
 
     private BakingStep mBakingStep;
 
-    @BindView(R.id.step_number)
+    @BindView(R.id.item_step_number)
     TextView mStepNumberView;
 
-    @BindView(R.id.step_short_description)
+    @BindView(R.id.item_step_short_description)
     TextView mStepShortDescriptionView;
 
     private BakingStepViewHolder(@NonNull View itemView, @Nullable OnStepSelectedListener listener) {
