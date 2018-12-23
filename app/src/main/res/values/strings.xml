@@ -19,5 +19,6 @@
     <string name="previous">previous</string>
     <string name="next">next</string>
     <string name="select_a_recipe">Select a recipe</string>
+    <string name="step_number">Step %d</string>
 
 </resources>

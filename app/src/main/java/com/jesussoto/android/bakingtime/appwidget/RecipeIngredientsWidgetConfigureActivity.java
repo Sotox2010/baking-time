@@ -141,11 +141,6 @@ public class RecipeIngredientsWidgetConfigureActivity extends AppCompatActivity 
     private void updateRecipes(Resource<List<Recipe>> recipesResource) {
         List<Recipe> recipes = recipesResource.getData();
         mAdapter.replaceData(recipes);
-
-        /*if (recipes.isEmpty()) {
-            Toast.makeText(this, "There are no available recipes, open the main app first", Toast.LENGTH_LONG).show();
-            finish();
-        }*/
     }
 
 }

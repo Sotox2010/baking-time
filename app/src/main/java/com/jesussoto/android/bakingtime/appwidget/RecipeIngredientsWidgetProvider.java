@@ -48,21 +48,6 @@ public class RecipeIngredientsWidgetProvider extends AppWidgetProvider {
                 .addNextIntentWithParentStack(activityIntent)
                 .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        // This section makes it possible for items to have individualized behavior.
-        // It does this by setting up a pending intent template. Individuals items of a collection
-        // cannot set up their own pending intents. Instead, the collection as a whole sets
-        // up a pending intent template, and the individual items set a fillInIntent
-        // to create unique behavior on an item-by-item basis.
-        // Intent toastIntent = new Intent(context, StackWidgetProvider.class);
-        // Set the action for the intent.
-        // When the user touches a particular view, it will have the effect of
-        // broadcasting TOAST_ACTION.
-        // toastIntent.setAction(StackWidgetProvider.TOAST_ACTION);
-        // toastIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds[i]);
-        // intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
-        // PendingIntent fillPendingIntent = PendingIntent.getBroadcast(context, 0, toastIntent,
-        //        PendingIntent.FLAG_UPDATE_CURRENT);
-
         views.setPendingIntentTemplate(R.id.ingredients_list_view, operation);
         views.setOnClickPendingIntent(R.id.root, operation);
 
