@@ -12,12 +12,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.LoadControl;
+import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.RenderersFactory;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
@@ -68,6 +70,9 @@ public class RecipeStepFragment extends Fragment {
 
     @BindView(R.id.player_view)
     PlayerView mPlayerView;
+
+    @BindView(R.id.player_progress)
+    ProgressBar mPlayerProgress;
 
     @BindView(R.id.step_image)
     ImageView mStepImageView;
@@ -146,6 +151,7 @@ public class RecipeStepFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
+        savePlayerState();
         if (Build.VERSION.SDK_INT <= 23) {
             releasePlayer();
         }
@@ -183,31 +189,36 @@ public class RecipeStepFragment extends Fragment {
         TrackSelector trackSelector =  new DefaultTrackSelector();
         RenderersFactory renderersFactory = new DefaultRenderersFactory(requireContext());
         LoadControl loadControl = new DefaultLoadControl();
+
         mExoPlayer = ExoPlayerFactory.newSimpleInstance(requireContext(),
                 renderersFactory, trackSelector, loadControl);
-
-        mPlayerView.setPlayer(mExoPlayer);
-        mExoPlayer.setPlayWhenReady(mAutoPlay);
-
-        // Resume playback position.
-        mExoPlayer.seekTo(mCurrentWindowIndex, mPlaybackPosition);
 
         MediaSource mediaSource = new ExtractorMediaSource.Factory(
                 new DefaultHttpDataSourceFactory("UserAgent"))
                 .createMediaSource(Uri.parse(mVideoUrl));
 
+        mPlayerView.setPlayer(mExoPlayer);
+        mExoPlayer.addListener(mPlayerEventListener);
         mExoPlayer.prepare(mediaSource);
+
+        // Resume playback position.
+        mExoPlayer.seekTo(mCurrentWindowIndex, mPlaybackPosition);
+        mExoPlayer.setPlayWhenReady(mAutoPlay);
     }
 
     private void releasePlayer() {
         if (mExoPlayer != null) {
-            mPlaybackPosition = mExoPlayer.getCurrentPosition();
-            mCurrentWindowIndex = mExoPlayer.getCurrentWindowIndex();
-            mAutoPlay = mExoPlayer.getPlayWhenReady();
-
             mExoPlayer.stop();
             mExoPlayer.release();
             mExoPlayer = null;
+        }
+    }
+
+    private void savePlayerState() {
+        if (mExoPlayer != null) {
+            mPlaybackPosition = mExoPlayer.getCurrentPosition();
+            mCurrentWindowIndex = mExoPlayer.getCurrentWindowIndex();
+            mAutoPlay = mExoPlayer.getPlayWhenReady();
         }
     }
 
@@ -231,4 +242,14 @@ public class RecipeStepFragment extends Fragment {
     private void loadImage(String imageUrl) {
         mPicasso.load(imageUrl).into(mStepImageView);
     }
+
+    private Player.EventListener mPlayerEventListener = new Player.EventListener() {
+        @Override
+        public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+            boolean isProgressVisible = playbackState != Player.STATE_READY
+                    && playbackState != Player.STATE_ENDED;
+
+            mPlayerProgress.setVisibility(isProgressVisible ? View.VISIBLE : View.GONE);
+        }
+    };
 }
